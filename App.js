@@ -1,20 +1,46 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native'
+import { NavigationContainer } from '@react-navigation/native'
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { Distance } from './Components/Distance'
+import { Weight } from './Components/Weight'
+import { Temperature } from './Components/Temperature'
+import { Home } from './Components/Home'
+
+const Stack = createNativeStackNavigator()
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+    return (
+        <View style={styles.container}>
+            <NavigationContainer>
+                <Stack.Navigator>
+                    <Stack.Screen
+                        name='Home'
+                        options={{ title: 'Home' }}
+                        component={Home}
+                    />
+                    <Stack.Screen
+                        name='Distance'
+                        options={{ title: 'Distance Converter' }}
+                        component={Distance}
+                    />
+                    <Stack.Screen
+                        name='Weight'
+                        options={{ title: 'Weight Converter' }}
+                        component={Weight}
+                    />
+                    <Stack.Screen
+                        name='Temperature'
+                        options={{ title: 'Temperature Converter' }}
+                        component={Temperature}
+                    />
+                </Stack.Navigator>
+            </NavigationContainer>
+        </View>
+    )
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+    container: {
+        flex: 1
+    }
+})
