@@ -9,6 +9,12 @@ export const Distance = ({ isPremium }) => {
         { label: 'Cantimeters', value: 0.01 },
         { label: 'Millimeters', value: 0.001 }
     ]
+    const data2 = [
+        { label: 'Kilometers', value: 1000 },
+        { label: 'Meters', value: 1 },
+        { label: 'Cantimeters', value: 0.01 },
+        { label: 'Millimeters', value: 0.001 }
+    ]
 
     const [mainValue, SetMainValue] = useState('')
     const [convertedValue, SetConvertedValue] = useState('')
@@ -47,6 +53,17 @@ export const Distance = ({ isPremium }) => {
                 }
                 keyboardType='numeric'
             ></TextInput>
+
+            {/* {isPremium ? (
+                <DropdownComponent
+                    SetConvertedValue={SetConvertedValue}
+                    data={data2}
+                    value={distance}
+                    setValue={setDistance}
+                    mainValue={mainValue}
+                    isPremium={isPremium}
+                />
+            ) : null} */}
             <View style={{ width: '100%', alignItems: 'center' }}>
                 <TextInput
                     placeholder='Meters'
