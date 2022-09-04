@@ -13,7 +13,7 @@ export const Home = ({ navigation }) => {
     }
 
     return (
-        <View>
+        <View style={styles.wrapper}>
             <View style={styles.nav}>
                 <Pressable style={styles.navItem} onPress={toDistance}>
                     <Text style={styles.navItemTxt}>Distance</Text>
@@ -26,9 +26,9 @@ export const Home = ({ navigation }) => {
                 </Pressable>
             </View>
             <View>
-                <Text style={styles.mainTxt}>
-                    Welcome to unit converter! Click on any tab below and
-                    convert values...
+                <Text style={styles.mainTxt}>Welcome to unit converter!</Text>
+                <Text style={styles.mainTxt2}>
+                    Click on any tab below and convert values...
                 </Text>
             </View>
         </View>
@@ -36,6 +36,10 @@ export const Home = ({ navigation }) => {
 }
 
 const styles = StyleSheet.create({
+    wrapper: {
+        backgroundColor: '#fff',
+        height: '100%'
+    },
     nav: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -49,6 +53,13 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         textAlign: 'center',
         marginTop: 100
+    },
+    mainTxt2: {
+        fontSize: 26,
+        fontWeight: 'bold',
+        alignItems: 'center',
+        justifyContent: 'center',
+        textAlign: 'center'
     },
     navItem: {
         backgroundColor: '#000',

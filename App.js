@@ -15,22 +15,62 @@ export default function App() {
                 <Stack.Navigator>
                     <Stack.Screen
                         name='Home'
-                        options={{ title: 'Home' }}
+                        options={{
+                            title: 'Home',
+                            headerStyle: {
+                                backgroundColor: '#000'
+                            },
+                            headerTintColor: '#fff',
+                            headerTitleStyle: {
+                                fontWeight: 'bold',
+                                fontSize: 26
+                            }
+                        }}
                         component={Home}
                     />
                     <Stack.Screen
                         name='Distance'
-                        options={{ title: 'Distance Converter' }}
+                        options={{
+                            title: 'Distance Converter',
+                            headerStyle: {
+                                backgroundColor: '#000'
+                            },
+                            headerTintColor: '#fff',
+                            headerTitleStyle: {
+                                fontWeight: 'bold',
+                                fontSize: 26
+                            }
+                        }}
                         component={Distance}
                     />
                     <Stack.Screen
                         name='Weight'
-                        options={{ title: 'Weight Converter' }}
+                        options={{
+                            title: 'Weight Converter',
+                            headerStyle: {
+                                backgroundColor: '#000'
+                            },
+                            headerTintColor: '#fff',
+                            headerTitleStyle: {
+                                fontWeight: 'bold',
+                                fontSize: 26
+                            }
+                        }}
                         component={Weight}
                     />
                     <Stack.Screen
                         name='Temperature'
-                        options={{ title: 'Temperature Converter' }}
+                        options={{
+                            title: 'Temperature Converter',
+                            headerStyle: {
+                                backgroundColor: '#000'
+                            },
+                            headerTintColor: '#fff',
+                            headerTitleStyle: {
+                                fontWeight: 'bold',
+                                fontSize: 26
+                            }
+                        }}
                         component={Temperature}
                     />
                 </Stack.Navigator>

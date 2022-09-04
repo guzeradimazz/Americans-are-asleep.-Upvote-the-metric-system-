@@ -39,14 +39,14 @@ export const Distance = () => {
                 onChangeText={distance ? (i) => convertValue(i) : errDistance}
                 keyboardType='numeric'
             ></TextInput>
-            <View style={{width:'100%', alignItems:'center'}}>
+            <View style={{ width: '100%', alignItems: 'center' }}>
                 <TextInput
-                    placeholder='meters'
+                    placeholder='Meters'
                     style={styles.input}
                     value={convertedValue}
                     keyboardType='numeric'
                 ></TextInput>
-                <Text style={{textAlign:'center'}}>Meters</Text>
+                <Text style={{ textAlign: 'center' }}>Meters</Text>
             </View>
         </View>
     )
@@ -57,12 +57,14 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'space-around',
         alignItems: 'center',
-        paddingBottom: 300
+        paddingBottom: 300,
+        height: '100%',
+        backgroundColor: '#fff'
     },
     input: {
         height: 50,
         textAlign: 'center',
-        width: '60%',
+        width: '90%',
         borderBottomColor: '#000',
         borderBottomWidth: 2,
         borderRadius: 5,
