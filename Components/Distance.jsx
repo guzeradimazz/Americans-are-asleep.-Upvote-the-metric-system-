@@ -2,7 +2,7 @@ import react, { useState } from 'react'
 import { View, Text, TextInput, StyleSheet } from 'react-native'
 import { DropdownComponent } from './DropdownComponent'
 
-export const Distance = () => {
+export const Distance = ({ isPremium }) => {
     const data = [
         { label: 'Kilometers', value: 1000 },
         { label: 'Meters', value: 1 },
@@ -33,6 +33,7 @@ export const Distance = () => {
                 value={distance}
                 setValue={setDistance}
                 mainValue={mainValue}
+                isPremium={isPremium}
             />
             <TextInput
                 maxLength={15}

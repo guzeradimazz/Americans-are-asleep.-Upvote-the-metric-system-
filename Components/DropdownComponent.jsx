@@ -8,14 +8,22 @@ export const DropdownComponent = ({
     value,
     setValue,
     SetConvertedValue,
-    mainValue
+    mainValue,
+    isPremium
 }) => {
     const [isFocus, setIsFocus] = useState(false)
 
     const renderLabel = () => {
         if (value || isFocus) {
             return (
-                <Text style={[styles.label, isFocus && { color: 'blue' }]}>
+                <Text
+                    style={[
+                        styles.label,
+                        isFocus && isPremium
+                            ? { color: 'black' }
+                            : { color: 'blue' }
+                    ]}
+                >
                     Distance dropdown
                 </Text>
             )
@@ -27,7 +35,14 @@ export const DropdownComponent = ({
         <View style={styles.container}>
             {renderLabel()}
             <Dropdown
-                style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
+                style={
+                    isPremium
+                        ? [
+                              styles.dropdown,
+                              isFocus && { borderColor: 'gold', borderWidth: 2 }
+                          ]
+                        : [styles.dropdown, isFocus && { borderColor: 'black' }]
+                }
                 placeholderStyle={styles.placeholderStyle}
                 selectedTextStyle={styles.selectedTextStyle}
                 inputSearchStyle={styles.inputSearchStyle}
@@ -50,8 +65,16 @@ export const DropdownComponent = ({
                 renderLeftIcon={() => (
                     <AntDesign
                         style={styles.icon}
-                        color={isFocus ? 'blue' : 'black'}
-                        name='Safety'
+                        color={
+                            isPremium
+                                ? isFocus
+                                    ? 'gold'
+                                    : 'black'
+                                : isFocus
+                                ? 'blue'
+                                : 'black'
+                        }
+                        name='star'
                         size={20}
                     />
                 )}

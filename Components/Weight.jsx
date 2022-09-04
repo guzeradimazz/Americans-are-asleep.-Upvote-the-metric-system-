@@ -2,7 +2,7 @@ import react, { useState } from 'react'
 import { View, Text, StyleSheet, TextInput } from 'react-native'
 import { DropdownComponent } from './DropdownComponent'
 
-export const Weight = () => {
+export const Weight = ({ isPremium }) => {
     const data = [
         { label: 'Kilograms', value: 1 },
         { label: 'Grams', value: 0.001 },
@@ -34,6 +34,7 @@ export const Weight = () => {
                 value={weight}
                 setValue={setWeight}
                 mainValue={mainValue}
+                isPremium={isPremium}
             />
             <TextInput
                 maxLength={15}

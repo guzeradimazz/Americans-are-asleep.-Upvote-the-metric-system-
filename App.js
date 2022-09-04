@@ -5,10 +5,13 @@ import { Distance } from './Components/Distance'
 import { Weight } from './Components/Weight'
 import { Temperature } from './Components/Temperature'
 import { Home } from './Components/Home'
+import { useState } from 'react'
 
 const Stack = createNativeStackNavigator()
 
 export default function App() {
+    const [isPremium, SetIsPremium] = useState(false)
+
     return (
         <View style={styles.container}>
             <NavigationContainer>
@@ -26,8 +29,15 @@ export default function App() {
                                 fontSize: 26
                             }
                         }}
-                        component={Home}
-                    />
+                    >
+                        {(props) => (
+                            <Home
+                                {...props}
+                                isPremium={isPremium}
+                                SetIsPremium={SetIsPremium}
+                            />
+                        )}
+                    </Stack.Screen>
                     <Stack.Screen
                         name='Distance'
                         options={{
@@ -41,8 +51,11 @@ export default function App() {
                                 fontSize: 26
                             }
                         }}
-                        component={Distance}
-                    />
+                    >
+                        {(props) => (
+                            <Distance {...props} isPremium={isPremium} />
+                        )}
+                    </Stack.Screen>
                     <Stack.Screen
                         name='Weight'
                         options={{
@@ -56,8 +69,9 @@ export default function App() {
                                 fontSize: 26
                             }
                         }}
-                        component={Weight}
-                    />
+                    >
+                        {(props) => <Weight {...props} isPremium={isPremium} />}
+                    </Stack.Screen>
                     <Stack.Screen
                         name='Temperature'
                         options={{
@@ -71,8 +85,11 @@ export default function App() {
                                 fontSize: 26
                             }
                         }}
-                        component={Temperature}
-                    />
+                    >
+                        {(props) => (
+                            <Temperature {...props} isPremium={isPremium} />
+                        )}
+                    </Stack.Screen>
                 </Stack.Navigator>
             </NavigationContainer>
         </View>
