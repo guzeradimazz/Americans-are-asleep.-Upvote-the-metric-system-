@@ -3,7 +3,13 @@ import { StyleSheet, Text, View } from 'react-native'
 import { Dropdown } from 'react-native-element-dropdown'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 
-export const DropdownComponent = ({ data,value,setValue,SetConvertedValue,mainValue }) => {
+export const DropdownComponent = ({
+    data,
+    value,
+    setValue,
+    SetConvertedValue,
+    mainValue
+}) => {
     const [isFocus, setIsFocus] = useState(false)
 
     const renderLabel = () => {
@@ -37,7 +43,7 @@ export const DropdownComponent = ({ data,value,setValue,SetConvertedValue,mainVa
                 onFocus={() => setIsFocus(true)}
                 onBlur={() => setIsFocus(false)}
                 onChange={(item) => {
-                    SetConvertedValue(`${mainValue*item.value}`)
+                    SetConvertedValue(`${mainValue * item.value}`)
                     setValue(item.value)
                     setIsFocus(false)
                 }}

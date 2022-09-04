@@ -19,8 +19,11 @@ export const Distance = () => {
         alert('Select unit')
     }
     const convertValue = (item) => {
-        SetMainValue(item)
-        SetConvertedValue(`${+item * distance}`)
+        if ((item.split('.') || []).length - 1 > 1) return
+        else {
+            SetMainValue(item)
+            SetConvertedValue(`${+item * distance}`)
+        }
     }
     return (
         <View style={styles.wrapper}>
@@ -36,7 +39,11 @@ export const Distance = () => {
                 placeholder='Enter value here'
                 style={styles.input}
                 value={mainValue}
-                onChangeText={distance ? (i) => convertValue(i) : errDistance}
+                onChangeText={
+                    distance
+                        ? (i) => convertValue(i.replace(/,/, '.'))
+                        : errDistance
+                }
                 keyboardType='numeric'
             ></TextInput>
             <View style={{ width: '100%', alignItems: 'center' }}>

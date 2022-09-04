@@ -19,8 +19,11 @@ export const Weight = () => {
         alert('Select unit')
     }
     const convertValue = (item) => {
-        SetMainValue(item)
-        SetConvertedValue(`${+item * weight}`)
+        if ((item.split('.') || []).length - 1 > 1) return
+        else {
+            SetMainValue(item)
+            SetConvertedValue(`${+item * weight}`)
+        }
     }
 
     return (
@@ -37,7 +40,11 @@ export const Weight = () => {
                 placeholder='Enter value here'
                 style={styles.input}
                 value={mainValue}
-                onChangeText={weight ? (i) => convertValue(i) : errDistance}
+                onChangeText={
+                    weight
+                        ? (i) => convertValue(i.replace(/,/, '.'))
+                        : errDistance
+                }
                 keyboardType='numeric'
             ></TextInput>
             <View style={{ width: '100%', alignItems: 'center' }}>
