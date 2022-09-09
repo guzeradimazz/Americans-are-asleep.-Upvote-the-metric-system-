@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { Dropdown } from 'react-native-element-dropdown'
 import AntDesign from 'react-native-vector-icons/AntDesign'
@@ -7,8 +7,8 @@ export const DropdownComponent = ({
     data,
     value,
     setValue,
-    SetConvertedValue,
-    mainValue,
+    inputValue,
+    onChangeInput,
     isPremium
 }) => {
     const [isFocus, setIsFocus] = useState(false)
@@ -30,6 +30,14 @@ export const DropdownComponent = ({
         }
         return null
     }
+
+    useEffect(() => {
+        if (inputValue) {
+            onChangeInput(inputValue.toString())
+        }
+    }, [value])
+
+    const [selectedValue, setSelectedValue] = useState(null)
 
     return (
         <View style={styles.container}>
@@ -54,12 +62,13 @@ export const DropdownComponent = ({
                 valueField='value'
                 placeholder={!isFocus ? 'Select unit' : '...'}
                 searchPlaceholder='Search...'
-                value={value}
+                value={selectedValue}
                 onFocus={() => setIsFocus(true)}
                 onBlur={() => setIsFocus(false)}
                 onChange={(item) => {
-                    SetConvertedValue(`${mainValue * item.value}`)
-                    setValue(item.value)
+                    // setValue(item.value)
+                    setSelectedValue(item.value)
+                    setValue(item)
                     setIsFocus(false)
                 }}
                 renderLeftIcon={() => (
@@ -71,7 +80,7 @@ export const DropdownComponent = ({
                                     ? 'gold'
                                     : 'black'
                                 : isFocus
-                                ? 'blue'
+                                ? 'black'
                                 : 'black'
                         }
                         name='star'

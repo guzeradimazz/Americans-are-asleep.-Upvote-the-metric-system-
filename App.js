@@ -6,6 +6,11 @@ import { Weight } from './Components/Weight'
 import { Temperature } from './Components/Temperature'
 import { Home } from './Components/Home'
 import { useState } from 'react'
+// import * as ScreenOrientation from 'expo-screen-orientation';
+
+// async function changeScreenOrientation() {
+//     await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE_LEFT);
+//   }
 
 const Stack = createNativeStackNavigator()
 

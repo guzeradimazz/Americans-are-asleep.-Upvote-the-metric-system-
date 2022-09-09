@@ -1,92 +1,87 @@
-import { View, Text, Pressable, StyleSheet } from 'react-native'
-import { useState } from 'react'
-import { Modal } from './Modal'
-export const Home = ({ navigation, isPremium, SetIsPremium }) => {
-    const toDistance = () => {
-        navigation.navigate('Distance')
-    }
-    const toWeight = () => {
-        navigation.navigate('Weight')
-    }
-    const toTemperature = () => {
-        navigation.navigate('Temperature')
-    }
-    const getPremium = () => {
-        isPremium ? SetIsPremium(false) : SetIsPremium(true)
-    }
-    const [isShow, SetIsShow] = useState(false)
+import {
+    Modal as RNModal,
+    View,
+    Pressable,
+    Image,
+    StyleSheet,
+    Text
+} from 'react-native'
 
+export const Modal = ({ isShow, SetIsShow }) => {
     return (
-        <View style={styles.wrapper}>
-            <Modal isShow={isShow} SetIsShow={SetIsShow}/>
-            <View style={styles.nav}>
-                <Pressable
-                    style={isPremium ? styles.navItemPremium : styles.navItem}
-                    onPress={toDistance}
-                >
+        <RNModal
+            animationType='slide'
+            transparent={true}
+            visible={isShow}
+            onRequestClose={() => {
+                SetIsShow(!isShow)
+            }}
+        >
+            <View style={styles.modalWrapper}>
+                <View style={isShow ? styles.showTrue : styles.showFalse}>
+                    <Pressable onPress={() => SetIsShow(!isShow)}>
+                        <Image
+                            style={{
+                                right: 0,
+                                position: 'absolute',
+                                marginRight: 10,
+                                marginTop: 10,
+                                width: 30,
+                                height: 30
+                            }}
+                            source={{
+                                uri: 'https://cdn-icons-png.flaticon.com/512/463/463612.png'
+                            }}
+                        ></Image>
+                    </Pressable>
                     <Text
-                        style={
-                            isPremium
-                                ? styles.navItemTxtPremium
-                                : styles.navItemTxt
-                        }
+                        style={{
+                            fontWeight: 'bold',
+                            fontSize: 24,
+                            textAlign: 'center',
+                            marginTop: 60,
+                            marginBottom: 20
+                        }}
                     >
-                        Distance
+                        Why Premium?
                     </Text>
-                </Pressable>
-                <Pressable
-                    style={isPremium ? styles.navItemPremium : styles.navItem}
-                    onPress={toWeight}
-                >
-                    <Text
-                        style={
-                            isPremium
-                                ? styles.navItemTxtPremium
-                                : styles.navItemTxt
-                        }
-                    >
-                        Weight
-                    </Text>
-                </Pressable>
-                <Pressable
-                    style={isPremium ? styles.navItemPremium : styles.navItem}
-                    onPress={toTemperature}
-                >
-                    <Text
-                        style={
-                            isPremium
-                                ? styles.navItemTxtPremium
-                                : styles.navItemTxt
-                        }
-                    >
-                        Temperature
-                    </Text>
-                </Pressable>
+                    <View style={styles.modalLine}>
+                        <Image
+                            style={styles.star}
+                            source={{
+                                uri: 'https://cdn-icons-png.flaticon.com/512/616/616489.png'
+                            }}
+                        />
+                        <Text style={{ fontWeight: 'bold', fontSize: 18 }}>
+                            {' '}
+                            NO MORE ADS
+                        </Text>
+                    </View>
+                    <View style={styles.modalLine}>
+                        <Image
+                            style={styles.star}
+                            source={{
+                                uri: 'https://cdn-icons-png.flaticon.com/512/616/616489.png'
+                            }}
+                        />
+                        <Text style={{ fontWeight: 'bold', fontSize: 18 }}>
+                            MORE CONVERTATIONS
+                        </Text>
+                    </View>
+                    <View style={styles.modalLine}>
+                        <Image
+                            style={styles.star}
+                            source={{
+                                uri: 'https://cdn-icons-png.flaticon.com/512/616/616489.png'
+                            }}
+                        />
+                        <Text style={{ fontWeight: 'bold', fontSize: 18 }}>
+                            SPECIAL DESIGN
+                        </Text>
+                    </View>
+                </View>
             </View>
-            <View>
-                <Text style={styles.mainTxt}>Welcome to unit converter!</Text>
-                <Text style={styles.mainTxt2}>
-                    Click on any tab below and convert values...
-                </Text>
-            </View>
-            <View style={styles.wrapperBtn}>
-                <Pressable
-                    style={
-                        isPremium ? styles.btnPremiumFull : styles.btnPremium
-                    }
-                    onPress={getPremium}
-                >
-                    <Text style={styles.btnPremiumTxt}>
-                        {isPremium ? 'Off Premium' : 'Take Premium'}
-                    </Text>
-                </Pressable>
-            </View>
-            <View style={styles.wrapperTxt}>
-                <Pressable onPress={() => SetIsShow(!isShow)}>
-                    <Text>why premium?</Text>
-                </Pressable>
-            </View>
-        </View>
+        </RNModal>
     )
 }
 

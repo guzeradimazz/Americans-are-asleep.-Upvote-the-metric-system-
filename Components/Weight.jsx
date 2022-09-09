@@ -1,61 +1,100 @@
 import react, { useState } from 'react'
 import { View, Text, StyleSheet, TextInput } from 'react-native'
 import { DropdownComponent } from './DropdownComponent'
+import { isNumber } from '../utils/isNumber'
 
 export const Weight = ({ isPremium }) => {
     const data = [
-        { label: 'Kilograms', value: 1 },
-        { label: 'Grams', value: 0.001 },
-        { label: 'Milligrams', value: 0.000001 },
-        { label: 'Pound', value: 0.453592 }
+        { label: 'Kilograms', amount: 1000, value: 0 },
+        { label: 'Grams', amount: 1, value: 1 },
+        { label: 'Milligrams', amount: 0.01, value: 2 },
+        { label: 'Pound', amount: 0.001, value: 3 }
     ]
 
-    const [mainValue, SetMainValue] = useState('')
-    const [convertedValue, SetConvertedValue] = useState('')
-    const [weight, setWeight] = useState('')
+    const data2 = [
+        { label: 'Kilograms', amount: 1000, value: 0 },
+        { label: 'Grams', amount: 1, value: 1 },
+        { label: 'Milligrams', amount: 0.01, value: 2 },
+        { label: 'Pound', amount: 0.001, value: 3 }
+    ]
+
+    const [value1, setValue1] = useState('')
+    const [value2, setValue2] = useState('')
+
+    const [option1, setOption1] = useState()
+    const [option2, setOption2] = useState()
+
+    const onChangeInput1 = (i) => {
+        if (!isNumber(+i)) return
+
+        setValue1(i)
+
+        if (option2) setValue2((+i * option1.amount) / option2.amount)
+    }
+    const onChangeInput2 = (i) => {
+        if (!isNumber(+i)) return
+
+        setValue2(i)
+        setValue1((+i * option2.amount) / option1.amount)
+    }
 
     const errDistance = () => {
-        SetMainValue('')
+        setValue1('')
+        setValue2('')
         alert('Select unit')
-    }
-    const convertValue = (item) => {
-        if ((item.split('.') || []).length - 1 > 1) return
-        else {
-            SetMainValue(item)
-            SetConvertedValue(`${+item * weight}`)
-        }
     }
 
     return (
         <View style={styles.wrapper}>
             <DropdownComponent
-                SetConvertedValue={SetConvertedValue}
+                onChangeInput={onChangeInput1}
+                inputValue={value1}
                 data={data}
-                value={weight}
-                setValue={setWeight}
-                mainValue={mainValue}
+                value={option1}
+                setValue={setOption1}
                 isPremium={isPremium}
             />
             <TextInput
                 maxLength={15}
                 placeholder='Enter value here'
                 style={styles.input}
-                value={mainValue}
+                value={value1.toString()}
                 onChangeText={
-                    weight
-                        ? (i) => convertValue(i.replace(/,/, '.'))
+                    isPremium
+                        ? option1 && option2
+                            ? onChangeInput1
+                            : errDistance
+                        : option1
+                        ? onChangeInput1
                         : errDistance
                 }
                 keyboardType='numeric'
             ></TextInput>
+            {isPremium ? (
+                <DropdownComponent
+                    onChangeInput={onChangeInput2}
+                    inputValue={value2}
+                    data={data2}
+                    value={option2}
+                    setValue={setOption2}
+                    isPremium={isPremium}
+                />
+            ) : null}
             <View style={{ width: '100%', alignItems: 'center' }}>
-                <TextInput
-                    placeholder='Kilograms'
-                    style={styles.input}
-                    value={convertedValue}
-                    keyboardType='numeric'
-                ></TextInput>
-                <Text style={{ textAlign: 'center' }}>Kilograms</Text>
+                {isPremium ? (
+                    <TextInput
+                        placeholder='Meters'
+                        style={styles.input}
+                        value={value2.toString()}
+                        onChangeText={
+                            option2 && option1 ? onChangeInput2 : errDistance
+                        }
+                        keyboardType='numeric'
+                    ></TextInput>
+                ) : (
+                    <Text>{value1 ? +value1 * option1.amount : ''}</Text>
+                )}
+                <Text style={{ textAlign: 'center' }}>Meters</Text>
             </View>
         </View>
     )
