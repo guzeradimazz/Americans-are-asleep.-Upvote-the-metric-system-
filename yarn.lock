@@ -1482,6 +1482,11 @@
     mkdirp "^1.0.4"
     rimraf "^3.0.2"
 
+"@react-native-clipboard/clipboard@^1.11.0":
+  version "1.11.0"
+  resolved "https://registry.yarnpkg.com/@react-native-clipboard/clipboard/-/clipboard-1.11.0.tgz#a802e87735a493cd0c6613f9d7cd168ed0a3b468"
+  integrity sha512-G/pagq9In5RWojnLDOD142Q2ReLZJ3lZv6rhuagzSIkZhdPU8RIEGhvoSUopx+VNVxK4ycKKzihAL8ju4DRuRw==
+
 "@react-native-community/cli-clean@^8.0.4":
   version "8.0.4"
   resolved "https://registry.yarnpkg.com/@react-native-community/cli-clean/-/cli-clean-8.0.4.tgz#97e16a20e207b95de12e29b03816e8f2b2c80cc7"
@@ -2970,6 +2975,11 @@ expo-asset@~8.6.1:
     md5-file "^3.2.3"
     path-browserify "^1.0.0"
     url-parse "^1.5.9"
+
+expo-clipboard@~3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/expo-clipboard/-/expo-clipboard-3.1.0.tgz#ff4b7a2a796488d3784ca8a40229a37bbcb7b65e"
+  integrity sha512-0cnmySP43VnpSWONn+1yIvPT0dwJWzCaPZcOZVxuH5mLhNi4p3UDLJFZt94tu4+bnyvDKjWxCK2/LoCM0XdwwQ==
 
 expo-constants@~13.2.2, expo-constants@~13.2.4:
   version "13.2.4"
@@ -5163,6 +5173,11 @@ pngjs@^3.3.0:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/pngjs/-/pngjs-3.4.0.tgz#99ca7d725965fb655814eaf65f38f12bbdbf555f"
   integrity sha512-NCrCHhWmnQklfH4MtJMRjZ2a8c80qXeMlQMv2uVp9ISJMTt562SbGd6n2oq0PaPgKm7Z6pL9E2UlLIhC+SHL3w==
+
+pod-install@^0.1.38:
+  version "0.1.38"
+  resolved "https://registry.yarnpkg.com/pod-install/-/pod-install-0.1.38.tgz#1c16a800a5fc1abea0cafcc0e190f376368c76ab"
+  integrity sha512-NeDWGigjJRriOIKBOvpW2/tK2tYLfyUT7ia6C6L+oarCAhBNP+IGODWdU+GEAqvfsseqOApcFclpXAJTL0UPzA==
 
 posix-character-classes@^0.1.0:
   version "0.1.1"
