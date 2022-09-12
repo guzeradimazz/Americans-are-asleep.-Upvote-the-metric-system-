@@ -66,7 +66,6 @@ export const DropdownComponent = ({
                 onFocus={() => setIsFocus(true)}
                 onBlur={() => setIsFocus(false)}
                 onChange={(item) => {
-                    // setValue(item.value)
                     setSelectedValue(item.value)
                     setValue(item)
                     setIsFocus(false)

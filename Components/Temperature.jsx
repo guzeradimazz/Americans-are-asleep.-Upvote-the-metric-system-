@@ -84,6 +84,13 @@ export const Temperature = ({ isPremium }) => {
         setValue2('')
         alert('Select unit')
     }
+    
+    const switchValues = () => {
+        if(!value1 || !value2) alert('Enter value before switching')
+        const tempValue1 = value1
+        setValue1(value2)
+        setValue2(tempValue1)
+    }
 
     return (
         <View style={styles.wrapper}>
@@ -136,6 +143,25 @@ export const Temperature = ({ isPremium }) => {
                     </Pressable>
                 ) : null}
             </View>
+
+            {isPremium ? (
+                <View>
+                    <Pressable onPress={switchValues}>
+                        <Image
+                            style={{
+                                right: 0,
+                                marginRight: 10,
+                                marginTop: 10,
+                                width: 50,
+                                height: 50
+                            }}
+                            source={{
+                                uri: 'https://cdn-icons-png.flaticon.com/512/519/519848.png'
+                            }}
+                        />
+                    </Pressable>
+                </View>
+            ) : null}
             {isPremium ? (
                 <DropdownComponent
                     onChangeInput={onChangeInput2}

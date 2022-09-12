@@ -16,14 +16,14 @@ export const Weight = ({ isPremium }) => {
         { label: 'Kilograms', amount: 1000, value: 0 },
         { label: 'Grams', amount: 1, value: 1 },
         { label: 'Milligrams', amount: 0.01, value: 2 },
-        { label: 'Pound', amount: 0.001, value: 3 }
+        { label: 'Pound', amount: 453.5, value: 3 }
     ]
 
     const data2 = [
         { label: 'Kilograms', amount: 1000, value: 0 },
         { label: 'Grams', amount: 1, value: 1 },
         { label: 'Milligrams', amount: 0.01, value: 2 },
-        { label: 'Pound', amount: 0.001, value: 3 }
+        { label: 'Pound', amount: 453.5, value: 3 }
     ]
 
     const copyToClipboard1 = async () => {
@@ -58,6 +58,13 @@ export const Weight = ({ isPremium }) => {
         setValue1('')
         setValue2('')
         alert('Select unit')
+    }
+
+    const switchValues = () => {
+        if(!value1 || !value2) alert('Enter value before switching')
+        const tempValue1 = value1
+        setValue1(value2)
+        setValue2(tempValue1)
     }
 
     return (
@@ -113,6 +120,25 @@ export const Weight = ({ isPremium }) => {
                     </Pressable>
                 ) : null}
             </View>
+
+            {isPremium ? (
+                <View>
+                    <Pressable onPress={switchValues}>
+                        <Image
+                            style={{
+                                right: 0,
+                                marginRight: 10,
+                                marginTop: 10,
+                                width: 50,
+                                height: 50
+                            }}
+                            source={{
+                                uri: 'https://cdn-icons-png.flaticon.com/512/519/519848.png'
+                            }}
+                        />
+                    </Pressable>
+                </View>
+            ) : null}
             {isPremium ? (
                 <DropdownComponent
                     onChangeInput={onChangeInput2}

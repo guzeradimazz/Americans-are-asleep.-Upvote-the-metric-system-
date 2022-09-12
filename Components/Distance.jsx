@@ -40,6 +40,8 @@ export const Distance = ({ isPremium }) => {
     const [option1, setOption1] = useState()
     const [option2, setOption2] = useState()
 
+    const [isSwitched, setIsSwitched] = useState(false)
+
     const onChangeInput1 = (i) => {
         if (!isNumber(+i)) return
 
@@ -60,6 +62,12 @@ export const Distance = ({ isPremium }) => {
         alert('Select unit')
     }
 
+    const switchValues = () => {
+        if(!value1 || !value2) alert('Enter value before switching')
+        const tempValue1 = value1
+        setValue1(value2)
+        setValue2(tempValue1)
+    }
     return (
         <View style={styles.wrapper}>
             <DropdownComponent
@@ -70,7 +78,6 @@ export const Distance = ({ isPremium }) => {
                 setValue={setOption1}
                 isPremium={isPremium}
             />
-
             <View
                 style={{
                     flexDirection: 'row',
@@ -113,6 +120,25 @@ export const Distance = ({ isPremium }) => {
                     </Pressable>
                 ) : null}
             </View>
+
+            {isPremium ? (
+                <View>
+                    <Pressable onPress={switchValues}>
+                        <Image
+                            style={{
+                                right: 0,
+                                marginRight: 10,
+                                marginTop: 10,
+                                width: 50,
+                                height: 50
+                            }}
+                            source={{
+                                uri: 'https://cdn-icons-png.flaticon.com/512/519/519848.png'
+                            }}
+                        />
+                    </Pressable>
+                </View>
+            ) : null}
             {isPremium ? (
                 <DropdownComponent
                     onChangeInput={onChangeInput2}
