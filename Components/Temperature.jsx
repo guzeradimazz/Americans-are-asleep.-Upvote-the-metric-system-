@@ -10,40 +10,40 @@ export const Temperature = ({ isPremium }) => {
     const data = [
         {
             label: 'Celsium degrees',
-            converterTo: (prev) => prev,
-            converterOut: (prev) => prev,
+            converterTo: (prev) => parseFloat(prev),
+            converterOut: (prev) => parseFloat(prev),
             value: 0
         },
         {
             label: 'Kalvin degrees',
-            converterTo: (prev) => prev + 273,
-            converterOut: (prev) => prev - 273,
+            converterTo: (prev) => parseFloat(prev + 273),
+            converterOut: (prev) => parseFloat(prev - 273),
             value: 1
         },
         {
             label: 'Faringate degrees',
-            converterTo: (prev) => (prev * 9) / 5 + 32,
-            converterOut: (prev) => ((prev - 32) * 5) / 9,
+            converterTo: (prev) => parseFloat((prev * 9) / 5 + 32),
+            converterOut: (prev) => parseFloat(((prev - 32) * 5) / 9),
             value: 2
         }
     ]
     const data2 = [
         {
             label: 'Celsium degrees',
-            converterTo: (prev) => prev,
-            converterOut: (prev) => prev,
+            converterTo: (prev) => parseFloat(prev),
+            converterOut: (prev) => parseFloat(prev),
             value: 0
         },
         {
             label: 'Kalvin degrees',
-            converterTo: (prev) => prev + 273,
-            converterOut: (prev) => prev - 273,
+            converterTo: (prev) => parseFloat(prev + 273),
+            converterOut: (prev) => parseFloat(prev - 273),
             value: 1
         },
         {
             label: 'Faringate degrees',
-            converterTo: (prev) => (prev * 9) / 5 + 32,
-            converterOut: (prev) => ((prev - 32) * 5) / 9,
+            converterTo: (prev) => parseFloat((prev * 9) / 5 + 32),
+            converterOut: (prev) => parseFloat(((prev - 32) * 5) / 9),
             value: 2
         }
     ]
@@ -60,19 +60,50 @@ export const Temperature = ({ isPremium }) => {
     const [value2, setValue2] = useState('')
 
     const [option1, setOption1] = useState()
-    const [option2, setOption2] = useState({
-        label: 'Celsium degrees',
-        converterTo: (prev) => prev,
-        converterOut: (prev) => prev,
-        value: 0
-    })
+    const [option2, setOption2] = useState(
+        isPremium
+            ? {}
+            : {
+                  label: 'Celsium degrees',
+                  converterTo: (prev) => prev,
+                  converterOut: (prev) => prev,
+                  value: 0
+              }
+    )
 
-    const convertToRigthFloat = (str) => {
+    const convertToRigthFloat1 = (str) => {
         let convertedStr = ''
-        if (str) {
-            if (str.toString().split('.')[1].length > 5) {
-                convertedStr = str.toString().substring(0, str.toString().split('.')[1].length-6)
-            }
+        if (str || str != '') {
+            if (str.toString().includes('.')) {
+                if (str.toString().split('.')[1].length) {
+                    if (str.toString().split('.')[1].length > 5) {
+                        convertedStr = str
+                            .toString()
+                            .substring(
+                                0,
+                                str.toString().split('.')[1].length - 1
+                            )
+                    } else return str
+                } else return str
+            } else return str
+        }
+        return convertedStr
+    }
+    const convertToRigthFloat2 = (str) => {
+        let convertedStr = ''
+        if (str || str != '') {
+            if (str.toString().includes('.')) {
+                if (str.toString().split('.')[1].length) {
+                    if (str.toString().split('.')[1].length > 5) {
+                        convertedStr = str
+                            .toString()
+                            .substring(
+                                0,
+                                str.toString().split('.')[1].length - 1
+                            )
+                    } else return str
+                } else return str
+            } else return str
         }
         return convertedStr
     }
@@ -81,22 +112,20 @@ export const Temperature = ({ isPremium }) => {
         let freshM = ''
 
         if (m[m.length - 1] == '.') {
-            freshM = m + '0'
             freshM = m
 
             let M = new BigNumber(+freshM)
 
-            setValue1(M)
+            setValue1(freshM)
             let variantValue1 = new BigNumber(
                 option2.converterTo(option1.converterOut(+M))
             )
             let variantValue2 = new BigNumber(option1.converterOut(+M))
             if (option2) {
-                // console.log(convertToRigthFloat(variantValue1))
-                setValue2(variantValue1)
+                setValue2(convertToRigthFloat2(variantValue1))
             } else {
                 // console.log(convertToRigthFloat(variantValue2))
-                setValue2(variantValue2)
+                setValue2(convertToRigthFloat2(variantValue2))
             }
         } else {
             let M = new BigNumber(m)
@@ -107,9 +136,9 @@ export const Temperature = ({ isPremium }) => {
             )
             let variantValue2 = new BigNumber(option1.converterOut(+M))
             if (option2) {
-                setValue2(variantValue1)
+                setValue2(convertToRigthFloat2(variantValue1))
             } else {
-                setValue2(variantValue2)
+                setValue2(convertToRigthFloat2(variantValue2))
             }
         }
     }
@@ -119,16 +148,15 @@ export const Temperature = ({ isPremium }) => {
 
         let freshM = ''
         if (m[m.length - 1] == '.') {
-            freshM = m + '0'
             freshM = m
 
             let M = new BigNumber(+freshM)
-            setValue2(M)
+            setValue2(freshM)
 
             let variantValue3 = new BigNumber(
                 option1.converterTo(option2.converterOut(+M))
             )
-            setValue1(variantValue3)
+            setValue1(convertToRigthFloat1(variantValue3))
         } else {
             let M = new BigNumber(m)
             setValue2(M)
@@ -136,7 +164,7 @@ export const Temperature = ({ isPremium }) => {
             let variantValue3 = new BigNumber(
                 option1.converterTo(option2.converterOut(+M))
             )
-            setValue1(variantValue3)
+            setValue1(convertToRigthFloat1(variantValue3))
         }
     }
 
@@ -281,7 +309,9 @@ export const Temperature = ({ isPremium }) => {
                 ) : (
                     <Text>
                         {value1
-                            ? Number(+option1.converterOut(+value1)).toString()
+                            ? Number(+option1.converterOut(+value1))
+                                  .toFixed(3)
+                                  .toString()
                             : ''}
                     </Text>
                 )}

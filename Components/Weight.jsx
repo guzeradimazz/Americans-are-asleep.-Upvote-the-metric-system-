@@ -16,13 +16,13 @@ export const Weight = ({ isPremium }) => {
     const data = [
         { label: 'Kilograms', amount: 1000, value: 0 },
         { label: 'Grams', amount: 1, value: 1 },
-        { label: 'Milligrams', amount: 0.01, value: 2 },
+        { label: 'Milligrams', amount: 0.01, value: 2 }
     ]
 
     const data2 = [
         { label: 'Kilograms', amount: 1000, value: 0 },
         { label: 'Grams', amount: 1, value: 1 },
-        { label: 'Milligrams', amount: 0.01, value: 2 },
+        { label: 'Milligrams', amount: 0.01, value: 2 }
     ]
 
     const copyToClipboard1 = async () => {
@@ -37,7 +37,15 @@ export const Weight = ({ isPremium }) => {
     const [value2, setValue2] = useState('')
 
     const [option1, setOption1] = useState()
-    const [option2, setOption2] = useState({ label: 'Grams', amount: 1, value: 1 })
+    const [option2, setOption2] = useState(
+        isPremium
+            ? {}
+            : {
+                  label: 'Grams',
+                  amount: 1,
+                  value: 1
+              }
+    )
 
     const onChangeInput1 = (i) => {
         const m = isNumber(i.replace(/,/, '.'))

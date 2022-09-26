@@ -13,24 +13,6 @@ export const DropdownComponent = ({
 }) => {
     const [isFocus, setIsFocus] = useState(false)
 
-    const renderLabel = () => {
-        if (value || isFocus) {
-            return (
-                <Text
-                    style={[
-                        styles.label,
-                        isFocus && isPremium
-                            ? { color: 'black' }
-                            : { color: 'blue' }
-                    ]}
-                >
-                    Distance dropdown
-                </Text>
-            )
-        }
-        return null
-    }
-
     useEffect(() => {
         if (inputValue) {
             onChangeInput(inputValue.toString())
@@ -41,7 +23,6 @@ export const DropdownComponent = ({
 
     return (
         <View style={styles.container}>
-            {renderLabel()}
             <Dropdown
                 style={
                     isPremium

@@ -39,7 +39,15 @@ export const Distance = ({ isPremium }) => {
     const [value2, setValue2] = useState('')
 
     const [option1, setOption1] = useState()
-    const [option2, setOption2] = useState({ label: 'Meters', amount: 1, value: 1 })
+    const [option2, setOption2] = useState(
+        isPremium
+            ? {}
+            : {
+                  label: 'Meters',
+                  amount: 1,
+                  value: 1
+              }
+    )
 
     const onChangeInput1 = (i) => {
         const m = isNumber(i.replace(/,/, '.'))
