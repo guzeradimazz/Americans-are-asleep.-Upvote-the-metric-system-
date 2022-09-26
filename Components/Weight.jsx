@@ -1,4 +1,4 @@
-import react, { useState } from 'react'
+import react, { useState, useEffect } from 'react'
 import {
     View,
     Text,
@@ -7,6 +7,7 @@ import {
     Pressable,
     Image
 } from 'react-native'
+import BigNumber from 'bignumber.js'
 import { DropdownComponent } from './DropdownComponent'
 import * as Clipboard from 'expo-clipboard'
 import { isNumber } from '../utils/isNumber'
@@ -16,14 +17,12 @@ export const Weight = ({ isPremium }) => {
         { label: 'Kilograms', amount: 1000, value: 0 },
         { label: 'Grams', amount: 1, value: 1 },
         { label: 'Milligrams', amount: 0.01, value: 2 },
-        { label: 'Pound', amount: 453.5, value: 3 }
     ]
 
     const data2 = [
         { label: 'Kilograms', amount: 1000, value: 0 },
         { label: 'Grams', amount: 1, value: 1 },
         { label: 'Milligrams', amount: 0.01, value: 2 },
-        { label: 'Pound', amount: 453.5, value: 3 }
     ]
 
     const copyToClipboard1 = async () => {
@@ -38,21 +37,78 @@ export const Weight = ({ isPremium }) => {
     const [value2, setValue2] = useState('')
 
     const [option1, setOption1] = useState()
-    const [option2, setOption2] = useState()
+    const [option2, setOption2] = useState({ label: 'Grams', amount: 1, value: 1 })
 
     const onChangeInput1 = (i) => {
-        if (!isNumber(+i)) return
+        const m = isNumber(i.replace(/,/, '.'))
+        let freshM = ''
+        if (m[m.length - 1] == '.') {
+            freshM = m + '0'
+            freshM = m
 
-        setValue1(i)
+            let M = new BigNumber(+freshM)
+            setValue1(freshM)
+            let partValue1 = new BigNumber(M)
+            let partValue2 = new BigNumber(option1.amount)
+            let partValue3 = new BigNumber(option2.amount)
+            let result1 = new BigNumber(0)
+            let result2 = new BigNumber(0)
+            result1 = partValue1.multipliedBy(partValue2)
+            result2 = result1.dividedBy(partValue3)
+            if (option2) setValue2(result2)
+        } else {
+            freshM = m
 
-        if (option2) setValue2((+i * option1.amount) / option2.amount)
+            let M = new BigNumber(+freshM)
+            setValue1(M)
+            let partValue1 = new BigNumber(M)
+            let partValue2 = new BigNumber(option1.amount)
+            let partValue3 = new BigNumber(option2.amount)
+            let result1 = new BigNumber(0)
+            let result2 = new BigNumber(0)
+            result1 = partValue1.multipliedBy(partValue2)
+            result2 = result1.dividedBy(partValue3)
+            if (option2) setValue2(result2)
+        }
     }
     const onChangeInput2 = (i) => {
-        if (!isNumber(+i)) return
+        const m = isNumber(i.replace(/,/, '.'))
 
-        setValue2(i)
-        setValue1((+i * option2.amount) / option1.amount)
+        let freshM = ''
+        if (m[m.length - 1] == '.') {
+            freshM = m + '0'
+            freshM = m
+
+            let M = new BigNumber(+freshM)
+            setValue2(freshM)
+            let partValue1 = new BigNumber(M)
+            let partValue2 = new BigNumber(option1.amount)
+            let partValue3 = new BigNumber(option2.amount)
+            let result1 = new BigNumber(0)
+            let result2 = new BigNumber(0)
+            result1 = partValue1.multipliedBy(partValue3)
+            result2 = result1.dividedBy(partValue2)
+            setValue1(result2)
+        } else {
+            freshM = m
+
+            let M = new BigNumber(+freshM)
+            setValue2(M)
+            let partValue1 = new BigNumber(m)
+            let partValue2 = new BigNumber(option1.amount)
+            let partValue3 = new BigNumber(option2.amount)
+            let result1 = new BigNumber(0)
+            let result2 = new BigNumber(0)
+            result1 = partValue1.multipliedBy(partValue3)
+            result2 = result1.dividedBy(partValue2)
+            setValue1(result2)
+        }
     }
+
+    useEffect(() => {
+        if (value1 == 'NaN') setValue1('0')
+        if (value2 == 'NaN') setValue2('0')
+    }, [value1, value2])
 
     const errDistance = () => {
         setValue1('')
@@ -61,7 +117,7 @@ export const Weight = ({ isPremium }) => {
     }
 
     const switchValues = () => {
-        if(!value1 || !value2) alert('Enter value before switching')
+        if (!value1 || !value2) alert('Enter value before switching')
         const tempValue1 = value1
         setValue1(value2)
         setValue2(tempValue1)
@@ -160,6 +216,7 @@ export const Weight = ({ isPremium }) => {
                         }}
                     >
                         <TextInput
+                            maxLength={15}
                             placeholder='Enter value here'
                             style={
                                 isPremium ? styles.inputPremium : styles.input
@@ -189,10 +246,14 @@ export const Weight = ({ isPremium }) => {
                         </Pressable>
                     </View>
                 ) : (
-                    <Text>{value1 ? +value1 * option1.amount : ''}</Text>
+                    <Text>
+                        {value1
+                            ? Number(+value1 * option1.amount).toFixed(3)
+                            : ''}
+                    </Text>
                 )}
                 {isPremium ? null : (
-                    <Text style={{ textAlign: 'center' }}>Kilos</Text>
+                    <Text style={{ textAlign: 'center' }}>Grams</Text>
                 )}
             </View>
         </View>

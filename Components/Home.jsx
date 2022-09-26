@@ -1,4 +1,4 @@
-import { View, Text, Pressable, StyleSheet } from 'react-native'
+import { View, Text, Pressable, StyleSheet, Dimensions } from 'react-native'
 import { useState } from 'react'
 import { Modal } from './Modal'
 export const Home = ({ navigation, isPremium, SetIsPremium }) => {
@@ -18,7 +18,7 @@ export const Home = ({ navigation, isPremium, SetIsPremium }) => {
 
     return (
         <View style={styles.wrapper}>
-            <Modal isShow={isShow} SetIsShow={SetIsShow}/>
+            <Modal isShow={isShow} SetIsShow={SetIsShow} />
             <View style={styles.nav}>
                 <Pressable
                     style={isPremium ? styles.navItemPremium : styles.navItem}

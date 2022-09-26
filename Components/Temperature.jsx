@@ -1,48 +1,49 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { View, Text, StyleSheet, Pressable, Image } from 'react-native'
 import * as Clipboard from 'expo-clipboard'
 import { DropdownComponent } from './DropdownComponent'
 import { TextInput } from 'react-native'
 import { isNumber } from '../utils/isNumber'
+import BigNumber from 'bignumber.js'
 
 export const Temperature = ({ isPremium }) => {
     const data = [
         {
             label: 'Celsium degrees',
-            converterTo: (temp) => temp,
-            converterOut: (temp) => temp,
+            converterTo: (prev) => prev,
+            converterOut: (prev) => prev,
             value: 0
         },
         {
             label: 'Kalvin degrees',
-            converterTo: (temp) => temp + 273,
-            converterOut: (temp) => temp - 273,
+            converterTo: (prev) => prev + 273,
+            converterOut: (prev) => prev - 273,
             value: 1
         },
         {
             label: 'Faringate degrees',
-            converterTo: (temp) => (temp * 9) / 5 + 32,
-            converterOut: (temp) => ((temp - 32) * 5) / 9,
+            converterTo: (prev) => (prev * 9) / 5 + 32,
+            converterOut: (prev) => ((prev - 32) * 5) / 9,
             value: 2
         }
     ]
     const data2 = [
         {
             label: 'Celsium degrees',
-            converterTo: (temp) => temp,
-            converterOut: (temp) => temp,
+            converterTo: (prev) => prev,
+            converterOut: (prev) => prev,
             value: 0
         },
         {
             label: 'Kalvin degrees',
-            converterTo: (temp) => temp + 273,
-            converterOut: (temp) => temp - 273,
+            converterTo: (prev) => prev + 273,
+            converterOut: (prev) => prev - 273,
             value: 1
         },
         {
             label: 'Faringate degrees',
-            converterTo: (temp) => (temp * 9) / 5 + 32,
-            converterOut: (temp) => ((temp - 32) * 5) / 9,
+            converterTo: (prev) => (prev * 9) / 5 + 32,
+            converterOut: (prev) => ((prev - 32) * 5) / 9,
             value: 2
         }
     ]
@@ -59,34 +60,99 @@ export const Temperature = ({ isPremium }) => {
     const [value2, setValue2] = useState('')
 
     const [option1, setOption1] = useState()
-    const [option2, setOption2] = useState()
+    const [option2, setOption2] = useState({
+        label: 'Celsium degrees',
+        converterTo: (prev) => prev,
+        converterOut: (prev) => prev,
+        value: 0
+    })
 
+    const convertToRigthFloat = (str) => {
+        let convertedStr = ''
+        if (str) {
+            if (str.toString().split('.')[1].length > 5) {
+                convertedStr = str.toString().substring(0, str.toString().split('.')[1].length-6)
+            }
+        }
+        return convertedStr
+    }
     const onChangeInput1 = (i) => {
-        if (!isNumber(+i)) return
+        const m = isNumber(i.replace(/,/, '.'))
+        let freshM = ''
 
-        setValue1(i)
-        setValue2(
-            option2
-                ? option2.converterTo(option1.converterOut(+i))
-                : option1.converterOut(+i)
-        )
+        if (m[m.length - 1] == '.') {
+            freshM = m + '0'
+            freshM = m
+
+            let M = new BigNumber(+freshM)
+
+            setValue1(M)
+            let variantValue1 = new BigNumber(
+                option2.converterTo(option1.converterOut(+M))
+            )
+            let variantValue2 = new BigNumber(option1.converterOut(+M))
+            if (option2) {
+                // console.log(convertToRigthFloat(variantValue1))
+                setValue2(variantValue1)
+            } else {
+                // console.log(convertToRigthFloat(variantValue2))
+                setValue2(variantValue2)
+            }
+        } else {
+            let M = new BigNumber(m)
+
+            setValue1(M)
+            let variantValue1 = new BigNumber(
+                option2.converterTo(option1.converterOut(+M))
+            )
+            let variantValue2 = new BigNumber(option1.converterOut(+M))
+            if (option2) {
+                setValue2(variantValue1)
+            } else {
+                setValue2(variantValue2)
+            }
+        }
     }
 
     const onChangeInput2 = (i) => {
-        if (!isNumber(+i)) return
+        const m = isNumber(i.replace(/,/, '.'))
 
-        setValue2(i)
-        setValue1(option1.converterTo(option2.converterOut(+i)))
+        let freshM = ''
+        if (m[m.length - 1] == '.') {
+            freshM = m + '0'
+            freshM = m
+
+            let M = new BigNumber(+freshM)
+            setValue2(M)
+
+            let variantValue3 = new BigNumber(
+                option1.converterTo(option2.converterOut(+M))
+            )
+            setValue1(variantValue3)
+        } else {
+            let M = new BigNumber(m)
+            setValue2(M)
+
+            let variantValue3 = new BigNumber(
+                option1.converterTo(option2.converterOut(+M))
+            )
+            setValue1(variantValue3)
+        }
     }
+
+    useEffect(() => {
+        if (value1 == 'NaN') setValue1('0')
+        if (value2 == 'NaN') setValue2('0')
+    }, [value1, value2])
 
     const errDistance = () => {
         setValue1('')
         setValue2('')
         alert('Select unit')
     }
-    
+
     const switchValues = () => {
-        if(!value1 || !value2) alert('Enter value before switching')
+        if (!value1 || !value2) alert('Enter value before switching')
         const tempValue1 = value1
         setValue1(value2)
         setValue2(tempValue1)
@@ -183,6 +249,7 @@ export const Temperature = ({ isPremium }) => {
                         }}
                     >
                         <TextInput
+                            maxLength={15}
                             placeholder={option2?.label || 'Enter value here'}
                             style={
                                 isPremium ? styles.inputPremium : styles.input
@@ -196,7 +263,7 @@ export const Temperature = ({ isPremium }) => {
                             keyboardType='numeric'
                         ></TextInput>
 
-                        <Pressable  onPress={copyToClipboard2}>
+                        <Pressable onPress={copyToClipboard2}>
                             <Image
                                 style={{
                                     right: 0,
@@ -212,7 +279,11 @@ export const Temperature = ({ isPremium }) => {
                         </Pressable>
                     </View>
                 ) : (
-                    <Text>{value1 ? option1.converterOut(+value1) : ''}</Text>
+                    <Text>
+                        {value1
+                            ? Number(+option1.converterOut(+value1)).toString()
+                            : ''}
+                    </Text>
                 )}
                 {isPremium ? null : (
                     <Text style={{ textAlign: 'center' }}>Celsium</Text>
