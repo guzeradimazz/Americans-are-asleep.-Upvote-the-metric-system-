@@ -39,15 +39,11 @@ export const Distance = ({ isPremium }) => {
     const [value2, setValue2] = useState('')
 
     const [option1, setOption1] = useState()
-    const [option2, setOption2] = useState(
-        isPremium
-            ? {}
-            : {
-                  label: 'Meters',
-                  amount: 1,
-                  value: 1
-              }
-    )
+    const [option2, setOption2] = useState({
+        label: 'Meters',
+        amount: 1,
+        value: 1
+    })
 
     const onChangeInput1 = (i) => {
         const m = isNumber(i.replace(/,/, '.'))
@@ -56,7 +52,7 @@ export const Distance = ({ isPremium }) => {
             freshM = m + '0'
             freshM = m
 
-            let M = new BigNumber(+freshM)
+            let M = new BigNumber(freshM)
             setValue1(freshM)
             let partValue1 = new BigNumber(M)
             let partValue2 = new BigNumber(option1.amount)
@@ -69,8 +65,9 @@ export const Distance = ({ isPremium }) => {
         } else {
             freshM = m
 
+            console.log(freshM);
             let M = new BigNumber(+freshM)
-            setValue1(M)
+            setValue1(freshM)
             let partValue1 = new BigNumber(M)
             let partValue2 = new BigNumber(option1.amount)
             let partValue3 = new BigNumber(option2.amount)
@@ -79,7 +76,7 @@ export const Distance = ({ isPremium }) => {
             result1 = partValue1.multipliedBy(partValue2)
             result2 = result1.dividedBy(partValue3)
             if (option2) setValue2(result2)
-        }
+        } 
     }
     const onChangeInput2 = (i) => {
         const m = isNumber(i.replace(/,/, '.'))
@@ -116,6 +113,11 @@ export const Distance = ({ isPremium }) => {
     }
 
     useEffect(() => {
+        if(value1){
+            if(value1.toString().length>=15){
+                alert('Max lenght of input - 15')
+            }
+        }
         if (value1 == 'NaN') setValue1('0')
         if (value2 == 'NaN') setValue2('0')
     }, [value1, value2])
@@ -132,6 +134,7 @@ export const Distance = ({ isPremium }) => {
         setValue1(value2)
         setValue2(tempValue1)
     }
+    
     return (
         <View style={styles.wrapper}>
             <DropdownComponent

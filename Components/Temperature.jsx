@@ -60,16 +60,12 @@ export const Temperature = ({ isPremium }) => {
     const [value2, setValue2] = useState('')
 
     const [option1, setOption1] = useState()
-    const [option2, setOption2] = useState(
-        isPremium
-            ? {}
-            : {
-                  label: 'Celsium degrees',
-                  converterTo: (prev) => prev,
-                  converterOut: (prev) => prev,
-                  value: 0
-              }
-    )
+    const [option2, setOption2] = useState({
+        label: 'Celsium degrees',
+        converterTo: (prev) => prev,
+        converterOut: (prev) => prev,
+        value: 0
+    })
 
     const convertToRigthFloat1 = (str) => {
         let convertedStr = ''

@@ -19,7 +19,7 @@ export const DropdownComponent = ({
         }
     }, [value])
 
-    const [selectedValue, setSelectedValue] = useState(null)
+    const [selectedValue, setSelectedValue] = useState(value ? value : null)
 
     return (
         <View style={styles.container}>
